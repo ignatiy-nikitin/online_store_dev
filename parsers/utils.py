@@ -134,12 +134,12 @@ def _fill_product_quantities(nomenclature_shipments_and_services):
                 product.save()
 
 
-
 def update_images():
     ftp = FTP(settings.FTP_SERVER)
     ftp.login(settings.FTP_USER, settings.FTP_PASS)
 
-    ftp.cwd('/upload/images/')
+    ftp.cwd('upload')
+    ftp.cwd('images')
     filenames = ftp.nlst()
 
     for filename in filenames:
@@ -267,7 +267,6 @@ def update_prices(filename):
                 'vendor': vendor,
             }
         )
-
 
     # for items in root:
     #     for item in items:
