@@ -1,0 +1,95 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<style>
+      body {
+        background-color: #F6F2E6;
+      }
+
+
+</style>
+<main class="container mt-3 pb-5">
+    <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+        <div class="card-body px-3 pb-4">
+            <h1 class="h4 pt-2 pb-3">Данные аккаунта</h1>
+            {% if messages %}
+            {% for message in messages %}
+            <p class="alert alert-info" role="alert">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% load crispy_forms_tags %}
+            {% csrf_token %}
+            {% crispy form form.helper %}
+        </div>
+    </section>
+
+    <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
+        <div class="card-body px-3 pb-4">
+            <h1 class="h2 pt-2 pb-3">Заказ номер 123</h1>
+            <p>Дата доставки:</p>
+            <p>Дата заказа:</p>
+            <p>Содержимое заказа:</p>
+            <h1 class="h4 pt-2 pb-3">Итого:</h1>
+        </div>
+    </section>
+
+
+<!--    <section>-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-sm">-->
+<!--                    One of three columns-->
+<!--                </div>-->
+<!--                <div class="col-sm">-->
+<!--                    One of three columns-->
+<!--                </div>-->
+<!--                <div class="col-sm">-->
+<!--                    One of three columns-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-sm">-->
+<!--                    One of three columns-->
+<!--                </div>-->
+<!--                <div class="col-sm">-->
+<!--                    One of three columns-->
+<!--                </div>-->
+<!--                <div class="col-sm">-->
+<!--                    One of three columns-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </section>-->
+<!--    <div class="row mb-0">-->
+<!--        <div class="col-6 col-md-6 col-lg-4">-->
+<!--            <div class="card  text-center mb-4">-->
+<!--                <a href="/products/{{ product.id }}/"><img src="{{ product.image.url }}"-->
+<!--                                                           class="card-img-top" alt="..."></a>-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">{{ product.name }}</h5>-->
+<!--                    <p class="card-text">{{ product.category.name }} | {{ product.vendor.name }}</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer">-->
+<!--                    <small class="text-muted">Тут должна быть цена</small>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        {% for product in products %}-->
+<!--        <div class="col-6 col-md-6 col-lg-4">-->
+<!--            <div class="card  text-center mb-4">-->
+<!--                <a href="/products/{{ product.id }}/"><img src="{{ product.image.url }}"-->
+<!--                                                           class="card-img-top" alt="..."></a>-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">{{ product.name }}</h5>-->
+<!--                    <p class="card-text">{{ product.category.name }} | {{ product.vendor.name }}</p>-->
+<!--                </div>-->
+<!--                <div class="card-footer">-->
+<!--                    <small class="text-muted">Тут должна быть цена</small>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+</main>
+{% endblock %}

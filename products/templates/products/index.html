@@ -1,0 +1,46 @@
+{% extends './base.html' %}
+{% block content %}
+<main class="container mt-3">
+    <section>
+        <h1 class="h1 text-center mx-auto mt-4 py-5"><strong>Магазин электроники</strong></h1>
+        <div class="row">
+            <div class="mx-auto">
+                {% load crispy_forms_tags %}
+                {% csrf_token %}
+                {% crispy form form.helper %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="mx-auto">
+                <p>Например:
+                    {% for product in products %}
+                    <a href="/search/?query={{ product.name }}"
+                       class="text-dark border-bottom border-dark m-1 text-decoration-none">{{ product.name }}</a>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="h2 font-weight-normal text-center mb-5">Товары</h2>
+        <div class="row mb-0">
+            {% for product in products %}
+            <div class="col-6 col-md-6 col-lg-4">
+                <div class="card  text-center mb-4">
+                    <a href="/products/{{ product.id }}/"><img src="{{ product.image.url }}"
+                                                                           class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.category.name }} • {{ product.vendor.name }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Цена: {{ product.price }} Р • Осталось: {{ product.quantity }} шт.</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends './base.html' %}
+{% block content %}
+<main class="container mt-3 pb-5">
+    <div class="row mt-5">
+        <div class="col-12 col-lg-2">
+            <div class="pl-3 mb-5">
+                <p><a href="javascript:history.go(-1)">Назад</a></p>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <section class="pl-3">
+                <div class="d-flex align-items-baseline align-content-baseline">
+                    <h1 class="h2 mt-4 font-weight-bold">{{ product.name }}</h1>
+                </div>
+                <p class="text-muted mb-4">Производитель:
+                    {% if product.vendor.name %}{{ product.vendor.name }}{% else %}не указан{% endif %}</p>
+                <div style="line-height: 1.8;">
+                    {{ product.description|safe }}
+                </div>
+                {% if form %}
+                <div class="card-body mx-3">
+                    <p class="h5 mt-3 font-weight-normal">Добавить товар в корзину</p>
+                    <a name="application"></a>
+                    {% load crispy_forms_tags %}
+                    {% csrf_token %}
+                    {% crispy form form.helper %}
+                </div>
+                {% else %}
+                <p class="alert alert-info" role="alert"><a
+                        href="/users/login/?next=/products/{{ product.id }}/#application">Авторизируйтесь</a>, чтобы
+                    добавить товар в корзину</p>
+                {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
