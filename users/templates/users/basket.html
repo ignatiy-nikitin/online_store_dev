@@ -1,0 +1,55 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<main class="container mt-3">
+    <section>
+        <h1 class="h1 text-center mx-auto mt-4 py-5"><strong>Корзина</strong></h1>
+
+    </section>
+    <div class="row">
+        <div class="mx-auto">
+
+
+<!--            {% for product in products %}-->
+<!--            <div class="col-6 col-md-6 col-lg-4">-->
+<!--                <div class="card  text-center mb-4">-->
+<!--                    <a href="/products/{{ product.id }}/"><img src="{{ product.image.url }}"-->
+<!--                                                               class="card-img-top" alt="..."></a>-->
+<!--                    <div class="card-body">-->
+<!--                        <h5 class="card-title">{{ product.name }}</h5>-->
+<!--                        <p class="card-text">{{ product.category.name }} • {{ product.vendor.name }}</p>-->
+<!--                    </div>-->
+<!--                    <div class="card-footer">-->
+<!--                        <small class="text-muted">Цена: {{ product.price }} Р • Осталось: {{ product.quantity }}-->
+<!--                            шт.</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+
+            {% if order_items %}
+            {% for order_item in order_items %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ order_item.product.image.url }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ order_item.product.name }}</h5>
+                            <p class="card-text">Количество: {{ order_item.quantity }}</p>
+                            <p class="card-text">Итого: {{ order_item.total_price }}</p>
+                            <p class="card-text"><a href="/products/{{ order_item.product.id }}/"><small class="text-muted">Изменить заказ</small></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <p>Общая сумма заказа: {{ order.total_cost }}</p>
+            <a href="/users/basket/create_final_order/" class="btn btn-primary btn-lg active mb-5" role="button" aria-pressed="true">Оформить заказ</a>
+            {% else %}
+                <p>Корзина пока пустая. Закажите что-нибудь!</p>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

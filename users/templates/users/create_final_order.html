@@ -1,0 +1,57 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<main class="container mt-3">
+    <section>
+        <h1 class="h1 text-center mx-auto mt-4 py-5"><strong>Оформление заказа</strong></h1>
+
+    </section>
+    <div class="row">
+        <div class="mx-auto">
+            {% load crispy_forms_tags %}
+            {% csrf_token %}
+            {% crispy form form.helper %}
+
+            <!--&lt;!&ndash;            {% for product in products %}&ndash;&gt;-->
+            <!--&lt;!&ndash;            <div class="col-6 col-md-6 col-lg-4">&ndash;&gt;-->
+            <!--&lt;!&ndash;                <div class="card  text-center mb-4">&ndash;&gt;-->
+            <!--&lt;!&ndash;                    <a href="/products/{{ product.id }}/"><img src="{{ product.image.url }}"&ndash;&gt;-->
+            <!--&lt;!&ndash;                                                               class="card-img-top" alt="..."></a>&ndash;&gt;-->
+            <!--&lt;!&ndash;                    <div class="card-body">&ndash;&gt;-->
+            <!--&lt;!&ndash;                        <h5 class="card-title">{{ product.name }}</h5>&ndash;&gt;-->
+            <!--&lt;!&ndash;                        <p class="card-text">{{ product.category.name }} • {{ product.vendor.name }}</p>&ndash;&gt;-->
+            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--&lt;!&ndash;                    <div class="card-footer">&ndash;&gt;-->
+            <!--&lt;!&ndash;                        <small class="text-muted">Цена: {{ product.price }} Р • Осталось: {{ product.quantity }}&ndash;&gt;-->
+            <!--&lt;!&ndash;                            шт.</small>&ndash;&gt;-->
+            <!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+            <!--&lt;!&ndash;                </div>&ndash;&gt;-->
+            <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+            <!--&lt;!&ndash;            {% endfor %}&ndash;&gt;-->
+
+            <!--            {% if order_items %}-->
+            <!--            {% for order_item in order_items %}-->
+            <!--            <div class="card mb-3" style="max-width: 540px;">-->
+            <!--                <div class="row no-gutters">-->
+            <!--                    <div class="col-md-4">-->
+            <!--                        <img src="{{ order_item.product.image.url }}" class="card-img" alt="...">-->
+            <!--                    </div>-->
+            <!--                    <div class="col-md-8">-->
+            <!--                        <div class="card-body">-->
+            <!--                            <h5 class="card-title">{{ order_item.product.name }}</h5>-->
+            <!--                            <p class="card-text">Количество: {{ order_item.quantity }}</p>-->
+            <!--                            <p class="card-text">Итого: {{ order_item.total_price }}</p>-->
+            <!--                            <p class="card-text"><a href="/products/{{ order_item.product.id }}/"><small class="text-muted">Изменить заказ</small></a></p>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            {% endfor %}-->
+            <!--            <p>Общая сумма заказа: {{ order.total_cost }}</p>-->
+            <!--            <a href="/users/basket/create_final_order/" class="btn btn-primary btn-lg active mb-5" role="button" aria-pressed="true">Оформить заказ</a>-->
+            <!--            {% else %}-->
+            <!--                <p>Корзина пока пустая. Закажите что-нибудь!</p>-->
+            <!--            {% endif %}-->
+            <!--        </div>-->
+        </div>
+</main>
+{% endblock %}

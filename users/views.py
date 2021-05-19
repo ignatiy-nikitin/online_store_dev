@@ -1,11 +1,16 @@
+from users.serializers import OrderFinalSerializer
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
+from orders.forms import CreateFinalOrderForm
+from orders.models import Order, OrderFinal, OrderItem
+from parsers.email import send_email
 
-from users.forms import LogInForm, RegisterForm, EditAccountForm
+from users.forms import EditAccountForm, LogInForm, RegisterForm
+from users.models import User
+
+from rest_framework import viewsets
 
 
 class LogInView(View):
@@ -26,7 +31,8 @@ class LogInView(View):
         context = {
             'form': LogInForm,
         }
-        messages.add_message(request, messages.ERROR, 'Неверный логин или пароль')
+        messages.add_message(request, messages.ERROR,
+                             'Неверный логин или пароль')
         return render(request, 'users/login.html', context)
 
 
@@ -42,7 +48,8 @@ class RegisterView(View):
     def post(self, request):
         username = request.POST['username']
         if User.objects.filter(username=username).exists():
-            messages.add_message(request, messages.ERROR, 'Пользователь с таким логином уже существует')
+            messages.add_message(request, messages.ERROR,
+                                 'Пользователь с таким логином уже существует')
             return redirect('users:register')
         password = request.POST['password']
         user = User.objects.create_user(username=username, password=password)
@@ -62,3 +69,84 @@ class LogOutView(View):
 class AccountView(View):
     def get(self, request):
         return render(request, 'users/account-edit.html', {'form': EditAccountForm})
+
+
+class BasketView(View):
+    def get(self, request):
+
+        print('-----', self.request.user.order.order_items)
+        context = {
+            'order': self.request.user.order,
+            'order_items': self.request.user.order.order_items.filter(quantity__gt=0),
+            # 'order_items': OrderItem.objects.all()
+        }
+        return render(request, 'users/basket.html', context)
+
+
+class OrdersView(View):
+    def get(self, request):
+        context = {
+            'orders_final': self.request.user.orders_final.all(),
+        }
+        return render(request, 'users/orders.html', context)
+
+
+class CreateFinalOrderView(View):
+    def get(self, request):
+        context = {
+            'form': CreateFinalOrderForm,
+        }
+        return render(request, 'users/create_final_order.html', context)
+
+    def post(self, request):
+        form = CreateFinalOrderForm(request.POST)
+        print('HERE')
+        if form.is_valid():
+            print('HERE 2')
+            form = form.save(commit=False)
+            # order = Order.objects.get(user=self.request.user)
+            form.recipient = self.request.user
+            form.order = self.request.user.order
+            form.total_cost = self.request.user.order.total_cost
+            form.save()
+
+            send_email(form, self.request.user)
+
+            # order.delete()
+            return redirect('products:main')
+
+            # created_dt = models.DateTimeField(auto_now_add=True)
+            # delivery_dt = models.DateTimeField()
+            # recipient = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='orders_final')
+            # address = models.CharField(max_length=256)
+            # cart = models.ForeignKey(to=Order, on_delete=models.CASCADE, related_name='orders_final')
+            # status = models.CharField(max_length=64, choices=STATUS_CHOICES, default='orders_final')
+            # total_cost = models.DecimalField(max_digits=8, decimal_places=2)
+
+        # def post(self, request, id):
+        #     order_instance = OrderItem.objects.filter(order__user=self.request.user, product__id=id).first()
+        #     order_instance = order_instance if order_instance else None
+        #     form = OrderForm(request.POST, instance=order_instance)
+        #     if form.is_valid():
+        #         form = form.save(commit=False)
+        #         if Order.objects.filter(user=self.request.user).exists():
+        #             order = Order.objects.get(user=self.request.user)
+        #         else:
+        #             order = Order.objects.create(user=self.request.user)
+        #         form.order = order
+        #         product = Product.objects.get(id=id)
+        #         form.product = product
+        #         form.price = product.price
+        #         form.save()
+        #         return redirect('products:products:product', id=id)
+
+
+
+#  API
+
+class SendViewSet(viewsets.ModelViewSet):
+    serializer_class = OrderFinalSerializer
+
+    def get_object(self):
+        order = get_object_or_404(OrderFinal, id=self.kwargs['pk'])
+        return order

@@ -64,6 +64,7 @@ class EditAccountForm(forms.ModelForm):
         self.helper.layout = Layout(
             Column('username'),
             Column('password'),
+
             # Row(Column('status'), Column('salary')),
             # Row(Column('specialty'), Column('grade')),
             # Row(Column('education')),

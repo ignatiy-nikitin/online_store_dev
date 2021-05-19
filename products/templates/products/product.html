@@ -14,17 +14,24 @@
                 </div>
                 <p class="text-muted mb-4">Производитель:
                     {% if product.vendor.name %}{{ product.vendor.name }}{% else %}не указан{% endif %}</p>
+                <p class="text-muted mb-4">Цена: {{ product.price }}</p>
+                <p class="text-muted mb-4">Остаток на складе: {{ product.quantity }}</p>
                 <div style="line-height: 1.8;">
                     {{ product.description|safe }}
                 </div>
                 {% if form %}
-                <div class="card-body mx-3">
-                    <p class="h5 mt-3 font-weight-normal">Добавить товар в корзину</p>
-                    <a name="application"></a>
-                    {% load crispy_forms_tags %}
-                    {% csrf_token %}
-                    {% crispy form form.helper %}
-                </div>
+                    {% if product.quantity %}
+                        <div class="card-body mx-3">
+                            <p class="h5 mt-3 font-weight-normal">Добавить товар в корзину</p>
+                            <a name="application"></a>
+                            {% load crispy_forms_tags %}
+                            {% csrf_token %}
+                            {% crispy form form.helper %}
+                            <b>Итого заказано на сумму: {{ total_price }}</b>
+                        </div>
+                    {% else %}
+                        <p>Товар закончился(. Проверьте наличие товара позже</p>
+                    {% endif %}
                 {% else %}
                 <p class="alert alert-info" role="alert"><a
                         href="/users/login/?next=/products/{{ product.id }}/#application">Авторизируйтесь</a>, чтобы

@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 import products
-from products.views import MainView, ProductsByCategoryView, ProductView
+from products.views import MainView, ProductsByCategoryView
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
@@ -37,6 +37,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include(('users.urls', 'users'))),
     path('parsers/', include(('parsers.urls', 'parsers'))),
+    path('mail/', include(('send_email.urls', 'send_email'))),
     path('', include(('products.urls', 'products'))),
     # path()
 ]

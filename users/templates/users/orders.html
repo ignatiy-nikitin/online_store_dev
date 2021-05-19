@@ -1,0 +1,42 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<main class="container mt-3">
+    <section>
+        <h1 class="h1 text-center mx-auto mt-4 py-5"><strong>История заказов</strong></h1>
+
+    </section>
+    <div class="row">
+        <div class="mx-auto">
+            {% if orders_final %}
+            {% for order_final in orders_final %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+<!--                    <div class="col-md-4">-->
+<!--                        <img src="{{ order_item.product.image.url }}" class="card-img" alt="...">-->
+<!--                    </div>-->
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Номер заказа: {{ order_final.id }}</h5>
+                            <p class="card-text">Дата оформления: {{ order_final.created_dt }}</p>
+                            <p class="card-text">Дата доставки: {{ order_final.delivery_dt }}</p>
+                            <p class="card-text">Адрес доставки: {{ order_final.address }}</p>
+                            <p class="card-text">Сумма: {{ order_final.total_cost }}</p>
+                            <p class="card-text">Стаус заказа: {{ order_final.status }}</p>
+<!--                            <p class="card-text">Итого: {{ order_item.total_price }}</p>-->
+<!--                            <p class="card-text"><a href="/products/{{ order_item.product.id }}/"><small-->
+<!--                                    class="text-muted">Изменить заказ</small></a></p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+<!--            <p>Общая сумма заказа: {{ order.total_cost }}</p>-->
+<!--            <a href="/users/basket/create_final_order/" class="btn btn-primary btn-lg active mb-5" role="button"-->
+<!--               aria-pressed="true">Оформить заказ</a>-->
+            {% else %}
+            <p>Кажется, вы пока ничего не заказывали...</p>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
