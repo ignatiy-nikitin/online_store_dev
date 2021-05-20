@@ -149,4 +149,6 @@ class SendViewSet(viewsets.ModelViewSet):
 
     def get_object(self):
         order = get_object_or_404(OrderFinal, id=self.kwargs['pk'])
+        order.delivery_time_from = str(order.delivery_time_from)[:2] + str(order.delivery_time_from)[3:5] + '00'
+        order.delivery_time_to = str(order.delivery_time_to)[:2] + str(order.delivery_time_to)[3:5] + '00'
         return order
