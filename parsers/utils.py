@@ -32,6 +32,7 @@ def _clear_database():
     Category.objects.all().delete()
     Product.objects.all().delete()
     Vendor.objects.all().delete()
+    # Category.objects.create(ref='00000000-0000-0000-0000-000000000000', name='')
 
 
 def _fill_nomenclature_types(nomenclature_types):
@@ -59,6 +60,11 @@ def _fill_nomenclature(nomenclatures):
         description = nomenclature.find('v8:Описание', namespaces=NAMESPACES).text
         vendor_ref = nomenclature.find('v8:Производитель', namespaces=NAMESPACES).text
         vendor = Vendor.objects.get(ref=vendor_ref) if Vendor.objects.filter(ref=vendor_ref).exists() else None
+
+        print('--', name)
+
+        if name is None:
+            continue
 
         Product.objects.update_or_create(
             ref=ref,

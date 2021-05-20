@@ -29,23 +29,25 @@ class OrderItem(models.Model):
 
 
 class OrderFinal(models.Model):
-    STATUS_CHOICES = [
-        ('created', 'создан'),
-        ('delivered', 'доставлен'),
-        ('processed', 'в процессе'),
-        ('cancelled', 'отменен'),
+    TYPE_CHOICES = [
+        ('pickup', 'самовывоз'),
+        ('delivery', 'доставка'),
     ]
 
     created_dt = models.DateTimeField(auto_now_add=True)
-    delivery_dt = models.DateTimeField()
-    delivery_time_from = models.TimeField()
-    delivery_time_to = models.TimeField()
+    delivery_dt = models.DateTimeField(blank=True)
+    delivery_time_from = models.TimeField(blank=True)
+    delivery_time_to = models.TimeField(blank=True)
     recipient = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders_final')
-    address = models.CharField(max_length=256)
+    address = models.CharField(max_length=256, blank=True)
     order = models.ForeignKey(to=Order, on_delete=models.CASCADE, related_name='orders_final')
-    extra_info = models.TextField()
+    extra_info = models.TextField(blank=True)
     # status = models.CharField(max_length=64, choices=STATUS_CHOICES, default='orders_final')
     total_cost = models.DecimalField(max_digits=8, decimal_places=2)
+    delivery_type = models.CharField(max_length=64, choices=TYPE_CHOICES, default='pickup')
+
+    def __str__(self):
+        return f'Номер заказа: {self.id}' 
 
     # def __str__(self):
     #     return f'Order of user {self.recipient.username}'

@@ -18,6 +18,7 @@ class CreateFinalOrderForm(forms.ModelForm):
             'delivery_time_from': 'Желаемое время доставки с',
             'delivery_time_to': 'Желаемое время доставки по',
             'extra_info': 'Дополнительная информация',
+            # 'delivery_type': 'Способ получения заказа',
         }
         widgets = {
             'delivery_dt': forms.DateInput(format=('%m/%d/%Y'),
