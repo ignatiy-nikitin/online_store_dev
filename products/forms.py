@@ -36,7 +36,7 @@ class OrderForm(forms.ModelForm):
         model = OrderItem
         fields = ['quantity']
         labels = {
-            'quantity': 'Количество товара'
+            'quantity': 'Количество'
         }
 
     def __init__(self, *args, **kwargs):
@@ -45,9 +45,9 @@ class OrderForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.label_class = 'mb-2 text-dark'
         self.helper.layout = Layout(
-            Row(Column('quantity')),
+            Row(Column('quantity', css_class='input-text qty')),
             Row(Column(ButtonHolder(
-                Submit('', 'Добавить в корзину', css_class='btn btn-primary  my-0')
+                Submit('', 'Добавить в корзину', css_class='button primary-btn')
             )))
         )
 

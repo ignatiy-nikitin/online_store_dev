@@ -40,7 +40,7 @@ class CreateFinalOrderForm(forms.ModelForm):
             Row('delivery_time_to'),
             Row('extra_info'),
             Row(Column(ButtonHolder(
-                Submit('', 'Оформить заказ', css_class='btn btn-primary  my-0')
+                Submit('', 'Оформить заказ', css_class='primary-btn ml-2')
             )))
         )
 

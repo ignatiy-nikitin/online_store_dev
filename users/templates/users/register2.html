@@ -1,0 +1,36 @@
+{% extends 'products/base2.html' %}
+{% block content %}
+  <!--================Login Box Area =================-->
+	<section class="login_box_area section-margin">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<div class="hover">
+							<h4>Уже есть аккаунт?</h4>
+							<a class="button button-account" href="/users/login/">Войти</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner register_form_inner">
+						<h3>Создать аккаунт</h3>
+							<div class="col-md-12 form-group">
+								{% load crispy_forms_tags %}
+                                {% csrf_token %}
+                                {% crispy form form.helper %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                {% endif %}
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+
+
+{% endblock %}

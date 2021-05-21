@@ -1,0 +1,114 @@
+{% extends 'products/base2.html' %}
+{% block content %}
+
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Корзина</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+  
+  
+
+  <!--================Cart Area =================-->
+  <section class="cart_area">
+        {% if order_items %}
+            <div class="container">
+                <div class="cart_inner">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Товар</th>
+                                    <th scope="col">Цена</th>
+                                    <th scope="col">Количество</th>
+                                    <th scope="col">Итого</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order_items %}
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img width="70" hight="70" src="{{ item.product.image.url }}" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <p>{{ item.product.name }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h5>₽{{ item.product.price }}</h5>
+                                        </td>
+                                        <td>
+                                            <div class="product_count">
+                                                <input type="text" name="qty" id="sst" maxlength="12" value="{{ item.quantity }}" title="Quantity:"
+                                                    class="input-text qty">
+                                                <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                                    class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                                <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                                    class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h5>₽{{ item.total_price }}</h5>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <h5>Итоговая сумма заказа</h5>
+                                    </td>
+                                    <td>
+                                        <h5>₽{{ order.total_cost }}</h5>
+                                    </td>
+                                </tr>
+                                <tr class="shipping_area">
+                                    <td class="d-none d-md-block">
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <h5>Доставка</h5>
+                                    </td>
+                                    <td>
+                                        
+                                                {% load crispy_forms_tags %}
+                                                {% csrf_token %}
+                                                {% crispy form form.helper %}
+
+                                        
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+
+            <div class="text-center">
+					<h5>Корзина пустая. Закажите что-нибудь!</h1>
+          </nav>
+            {% endif %}
+  </section>
+  <!--================End Cart Area =================-->
+{% endblock %}

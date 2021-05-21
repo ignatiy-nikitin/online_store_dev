@@ -1,0 +1,94 @@
+{% extends 'products/base2.html' %}
+{% block content %}
+
+  <!--================Order Details Area =================-->
+  <section class="order_details section-margin--small">
+    <div class="container">
+      <p class="text-center billing-alert">Спасибо!</p>
+      <div class="row mb-2">
+        <div class="col-md-6 col-xl-6 mb-4 mb-xl-0">
+          <div class="confirmation-card">
+            <h3 class="billing-title">Информация о заказе</h3>
+            <table class="order-rable">
+              <tr>
+                <td>Номер заказа</td>
+                <td>: {{ order.id }}</td>
+              </tr>
+              <tr>
+                <td>Дата</td>
+                <td>: {{ order.created_dt }}</td>
+              </tr>
+              <tr>
+                <td>Итого</td>
+                <td>: {{ order.total_cost }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-6 mb-4 mb-xl-0">
+          <div class="confirmation-card">
+            <h3 class="billing-title">Доставка</h3>
+            <table class="order-rable">
+              <tr>
+                <td>Адрес</td>
+                <td>: {{ order.address }}</td>
+              </tr>
+              <tr>
+                <td>Дата доставки</td>
+                <td>: {{ order.delivery_dt }}</td>
+              </tr>
+              <tr>
+                <td>с</td>
+                <td>: {{ order.delivery_time_from }}</td>
+              </tr>
+              <tr>
+                <td>по</td>
+                <td>: {{ delivery_time_to }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      <div class="order_details_table">
+        <h2>Order Details</h2>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Товар</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Итого</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_item in order.order.order_items.all %}
+                  <tr>
+                    <td>
+                      <p>{{ order_item.product.name }}</p>
+                    </td>
+                    <td>
+                      <h5>x {{ order_item.quantity}}</h5>
+                    </td>
+                    <td>
+                      <p>₽{{ order_item.price }}</p>
+                    </td>
+                  </tr>
+              {% endfor %}
+              <tr>
+                <td>
+                  <h4>Общая сумма заказа:</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <h4>₽{{ order.total_cost }}</h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Order Details Area =================-->
+{% endblock %}

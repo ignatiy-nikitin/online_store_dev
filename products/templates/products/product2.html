@@ -1,0 +1,50 @@
+{% extends './base2.html' %}
+{% block content %}
+{% load static %}
+	<!--================ End Header Menu Area =================-->
+
+  <!--================Single Product Area =================-->
+	<div class="product_image_area">
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+					<div class="owl-carousel owl-theme s_Product_carousel">
+						<div class="single-prd-item">
+							<img class="img-fluid" src="{{ product.image.url }}" alt="">
+						</div>
+						<!-- <div class="single-prd-item">
+							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+						</div>
+						<div class="single-prd-item">
+							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+						</div> -->
+					</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+						<h3>{{ product.name }}</h3>
+						<h2>₽{{ product.price }}</h2>
+						<ul class="list">
+							<li><a class="active" href="#"><span>Категория</span> : {{ product.category.name }}</a></li>
+							<li><a href="#"><span>Осталось</span> :  {{ product.quantity }}</a></li>
+						</ul>
+						<p>{{ product.description }} </p>
+
+                        
+
+                        {% load crispy_forms_tags %}
+                        {% csrf_token %}
+                        {% crispy form form.helper %}
+
+
+						
+
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Single Product Area =================-->	
+{% endblock %}

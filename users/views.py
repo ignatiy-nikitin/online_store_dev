@@ -17,7 +17,7 @@ class LogInView(View):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('products:main')  # TODO: not correct
-        return render(request, 'users/login.html', {'form': LogInForm})
+        return render(request, 'users/login2.html', {'form': LogInForm})
 
     def post(self, request):
         username = request.POST['username']
@@ -33,7 +33,7 @@ class LogInView(View):
         }
         messages.add_message(request, messages.ERROR,
                              'Неверный логин или пароль')
-        return render(request, 'users/login.html', context)
+        return render(request, 'users/login2.html', context)
 
 
 class RegisterView(View):
@@ -43,7 +43,7 @@ class RegisterView(View):
         context = {
             'form': RegisterForm,
         }
-        return render(request, 'users/register.html', context)
+        return render(request, 'users/register2.html', context)
 
     def post(self, request):
         username = request.POST['username']
@@ -78,9 +78,29 @@ class BasketView(View):
         context = {
             'order': self.request.user.order,
             'order_items': self.request.user.order.order_items.filter(quantity__gt=0),
+            'form': CreateFinalOrderForm,
             # 'order_items': OrderItem.objects.all()
         }
-        return render(request, 'users/basket.html', context)
+        return render(request, 'users/basket2.html', context)
+
+    def post(self, request):
+        form = CreateFinalOrderForm(request.POST)
+        print('HERE')
+        if form.is_valid():
+            print('HERE 2')
+            form = form.save(commit=False)
+            # order = Order.objects.get(user=self.request.user)
+            form.recipient = self.request.user
+            form.order = self.request.user.order
+            form.total_cost = self.request.user.order.total_cost
+            form.save()
+
+            send_email(form, self.request.user)
+
+            # order.delete()
+            # return redirect('products:main')
+            # (f'/users/orders/{id}/')
+            return redirect('users:order-info', id=form.id)
 
 
 class OrdersView(View):
@@ -89,6 +109,14 @@ class OrdersView(View):
             'orders_final': self.request.user.orders_final.all(),
         }
         return render(request, 'users/orders.html', context)
+
+
+class OrderInfoView(View):
+    def get(self, request, id):
+        context = {
+            'order': OrderFinal.objects.get(id=id),
+        }
+        return render(request, 'users/order_info2.html', context)
 
 
 class CreateFinalOrderView(View):
@@ -113,7 +141,7 @@ class CreateFinalOrderView(View):
             send_email(form, self.request.user)
 
             # order.delete()
-            return redirect('products:main')
+            return redirect('users:order-info', id=id)
 
             # created_dt = models.DateTimeField(auto_now_add=True)
             # delivery_dt = models.DateTimeField()

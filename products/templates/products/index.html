@@ -13,8 +13,8 @@
         <div class="row">
             <div class="mx-auto">
                 <p>Например:
-                    {% for product in products %}
-                    <a href="/search/?query={{ product.name }}"
+                    {% for product in products_example %}
+                    <a href="/products/{{ product.id }}/"
                        class="text-dark border-bottom border-dark m-1 text-decoration-none">{{ product.name }}</a>
                     {% endfor %}
                 </p>

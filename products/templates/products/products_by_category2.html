@@ -1,0 +1,76 @@
+{% extends './base2.html' %}
+{% block content %}
+	<!--================ End Header Menu Area =================-->
+
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>{{ category.name }}</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Главная</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ category.name}}</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+
+	<!-- ================ category section start ================= -->		  
+  <section class="section-margin--small mb-5">
+    <div class="container">
+      <div class="row">
+        <div class="">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+            <div class="sorting">
+              <select>
+                <option value="1">Сортировка по умолчанию</option>
+                <option value="1">Сортировка по возрастанию цены</option>
+                <option value="1">Сортировка по убыванию цены</option>
+              </select>
+            </div>
+            <div>
+              <div class="input-group filter-bar-search">
+                <input type="text" placeholder="Поиск">
+                <div class="input-group-append">
+                  <button type="button"><i class="ti-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Filter Bar -->
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-center card-product">
+                        <div class="card-product__img">
+                            <a href="/products/{{ product.id }}/"><img class="card-img" src="{{ product.image.url }}" alt="">
+                            <ul class="card-product__imgOverlay">
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-product__title"><a href="#">{{ product.name }}</a></h4>
+                            <p class="card-product__price">₽{{ product.price }}</p>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+              
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->		  
+{% endblock %}

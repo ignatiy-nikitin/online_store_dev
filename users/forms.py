@@ -21,7 +21,7 @@ class RegisterForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.label_class = 'text-muted'
-        self.helper.add_input(Submit('submit', 'Зарегистрироваться', css_class='btn btn-primary btn-lg btn-block'))
+        self.helper.add_input(Submit('submit', 'Зарегистрироваться', css_class='button button-register w-100', text_color='white'))
         self.fields['username'].help_text = None
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
@@ -42,8 +42,9 @@ class LogInForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.label_class = 'text-muted'
-        self.helper.add_input(Submit('submit', 'Войти', css_class='btn btn-primary btn-lg btn-block'))
+        self.helper.add_input(Submit('submit', 'Войти', css_class='button button-login w-100'))
         self.fields['username'].help_text = None
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
 
 
 class EditAccountForm(forms.ModelForm):
